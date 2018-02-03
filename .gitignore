@@ -27,4 +27,5 @@ nbdist/
 
 ### Custom ###
 src/main/resources/nomeclature.xls
+src/main/resources/static
 shop.*.db
