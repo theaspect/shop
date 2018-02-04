@@ -6,7 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.context.annotation.Bean
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
+
 
 @SpringBootApplication
 
@@ -35,6 +41,15 @@ open class ShopApplication @Autowired constructor(
     @ConfigurationProperties(prefix = "app")
     class Config {
         var parse: Boolean = false
+    }
+
+    @Bean
+    open fun repositoryRestConfigurer(): RepositoryRestConfigurer {
+        return object : RepositoryRestConfigurerAdapter() {
+            override fun configureRepositoryRestConfiguration(config: RepositoryRestConfiguration?) {
+                config?.defaultMediaType = MediaType.APPLICATION_JSON
+            }
+        }
     }
 
     companion object {

@@ -31,17 +31,35 @@ repositories {
     mavenCentral()
 }
 
+// https://docs.gradle.org/current/userguide/java_plugin.html
+// TODO add https://github.com/srs/gradle-node-plugin
+// TODO copy to build directory
+task buildFrontend(type:Exec){
+    workingDir 'frontend'
+    executable 'npm'
+    args "run", "deploy"
+}
+assemble.dependsOn buildFrontend
 
 dependencies {
+    compile ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+
+    // Used to expose public API
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.flywaydb:flyway-core')
+    compile('org.springframework.boot:spring-boot-starter-data-rest')
+    compile('org.springframework.data:spring-data-rest-hal-browser')
+
     compile('org.springframework.boot:spring-boot-starter-mail')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-web')
-    runtime('com.h2database:h2')
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-    compile group: 'org.apache.poi', name: 'poi', version: '3.9'
+
+    // Integrate with IDEA and show stats
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+
+    compile('org.flywaydb:flyway-core')
+    runtime('com.h2database:h2')
+    compile ('org.apache.poi:poi:3.9')
 }
 compileKotlin {
     kotlinOptions {

@@ -1,6 +1,6 @@
 package me.blzr.shop.repository
 
 import me.blzr.shop.domain.Category
-import org.springframework.data.repository.CrudRepository
+import org.springframework.data.rest.core.annotation.RepositoryRestResource
 
-interface Categories : CrudRepository<Category, Long>
+@RepositoryRestResource interface Categories : ReadOnlyCrudRepository<Category, Long>
